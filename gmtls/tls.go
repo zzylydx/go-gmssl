@@ -29,8 +29,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tjfoc/gmsm/sm2"
-	X "github.com/tjfoc/gmsm/x509"
+	"github.com/zzylydx/go-gmssl/sm2"
+	X "github.com/zzylydx/go-gmssl/x509"
 )
 
 // Server returns a new TLS server side connection

@@ -1,4 +1,4 @@
-module github.com/tjfoc/gmsm
+module github.com/zzylydx/go-gmssl
 
 go 1.14
 
