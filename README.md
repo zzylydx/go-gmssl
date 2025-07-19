@@ -53,6 +53,18 @@ tjfoc国密交流
  See the License for the specific language governing permissions and limitations under the License.
 =======
 
+## 国密与openssl的差异
+```shell
+# 颁发根证书
+openssl ecparam -genkey -name sm2 -out sm2.key
+openssl req -new -key sm2.key -out sm2.csr -sm3 -nodes -subj "/C=CN/ST=Beijing/L=Beijing/O=Example/OU=IT/CN=example.com"
+openssl req -x509 -new -nodes -key sm2.key -sm3 -days 365 -out sm2.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=Example/OU=IT/CN=example.com"
+openssl x509 -in sm2.crt -text -noout
 
-
-
+# 颁发下级证书
+openssl ecparam -genkey -name sm2 -out child.key
+openssl req -new -key child.key -out child_new.csr -sm3 -subj "/C=AU/ST=Some-State/O=Internet Widgits Pty Ltd"
+openssl x509 -req -in child_new.csr -CA sm2.crt -CAkey sm2.key -out child.crt -days 365 -sm3 -sigopt "distid:1234567812345678"
+```
+* go-gmssl的实现逻辑是没有填写uid就会填入默认uid：1234567812345678
+* openssl的实现逻辑是都需要自己手动填入
